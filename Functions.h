@@ -36,42 +36,10 @@ bool isReady(int rate)
 	else                   return false;
 }
 
-std::stack<int> primeFactors(int n);
 std::array<int, 4> airportSim(int totalSimTime, int landingTime, int takeoffTime,
 	int landingRate, int takeoffRate);
-void displayStack(std::stack<int> stack); //displays result of primeFactors()
-void displayArray(std::array<int, 4> array); //displays result of airportSim()
+void displayArray(const std::array<int, 4> &array); //displays result of airportSim()
 ///////////////////////////////////////////////////////////////////////
-
-std::stack<int> primeFactors(int n){
-	int divisor = 2;	//starting divisor
-	if (n <= 1){		//checks if value is invalid
-		std::stack<int> factors;
-		factors.push(1);
-		return factors;
-	}
-	else{				//fills stack with factors
-		std::stack<int> factors;
-		while (n > 1){
-			if (n % divisor == 0)
-			{
-				factors.push(divisor);
-				n /= divisor;
-				divisor = 2;
-			}
-			else{
-				++divisor;
-			}
-		}
-		std::stack<int> stack;
-		while (!factors.empty()) //puts stack in ascending order
-		{
-			stack.push(factors.top());
-			factors.pop();
-		}
-		return stack;
-	}
-}
 
 std::array<int, 4> airportSim(int totalSimTime, int landingTime, int takeoffTime,
 	//needed variables
@@ -160,23 +128,8 @@ std::array<int, 4> airportSim(int totalSimTime, int landingTime, int takeoffTime
 
 
 //functions after this are helper functions
-void displayStack(std::stack<int> stack){
-	if (stack.empty())
-	{
-		std::cout << "The stack is empty.\n";
-	}
-	else{
-		while (!stack.empty())
-		{
-			std::cout << stack.top() << " ";
-			stack.pop();
 
-		}
-	}
-	std::cout << std::endl;
-}
-
-void displayArray(std::array<int, 4> array){
+void displayArray(const std::array<int, 4> &array){
 	std::cout << "Average arriving queue length: " << array[0] << " planes\n";
 	std::cout << "Average arriving time spent in queue: " << array[1] << " minutes\n";
 	std::cout << "Average leaving queue length: " << array[2] << " planes\n";
