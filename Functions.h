@@ -13,27 +13,15 @@
 #include <time.h>
 #include <iostream>
 
-/**
-* Determine if a new plane is ready for either takeoff
-* or landing according to the rate passed in. If this function
-* is called 60 times, the number of returned trues is approximately
-* equal to the original rate passed in.
-*
-* Precondition: A rate defining the average number of
-* departures/arrivals per hour.
-* Postcondition: A bool indicating if there is a plane
-* ready to land/takeoff (dependent upon the rate passed in)
-*
-* Time Complexity: Theta(1)
-*/
-bool isReady(int rate)
+
+bool isReady(int rate) //Determines if a plane is ready
 {
 	// rate/60 gives us the likelihood that the indicated
 	//action will happen.
 	rate = (int)(((float)rate / 60.0) * 100);
 
-	if (rand() % 100 <= rate) return true;
-	else                   return false;
+	if (rand() % 100 <= rate) {return true;}
+	else {return false;}
 }
 
 std::array<int, 4> airportSim(int totalSimTime, int landingTime, int takeoffTime,
