@@ -175,7 +175,7 @@ impl Board {
                 return Some(Status::Blocked);
             }
             Direction::Down => {
-                if pos.0.checked_add(1).is_none()
+                if (pos.0 + 1 >= self.rows)
                     || self.copy.get((pos.0 + 1) * self.rows + pos.1).is_none()
                 {
                     return None;
@@ -199,7 +199,7 @@ impl Board {
                 return Some(Status::Blocked);
             }
             Direction::Right => {
-                if pos.1.checked_add(1).is_none()
+                if (pos.1 + 1) >= self.cols
                     || self.copy.get(pos.0 * self.rows + pos.1 + 1).is_none()
                 {
                     return None;
@@ -265,6 +265,30 @@ impl Board {
                 Status::Blocked => self.rotate_direction(),
             }
         }
+    }
+
+    fn print_graph_with_tortoise_and_hare(&self, tortoise: &Guard, hare: &Guard) {
+        for row in 0..self.rows {
+            for col in 0..self.cols {
+                match self.copy[row * self.cols + col] {
+                    Status::Blocked => print!("#"),
+                    Status::Available | Status::Traveled => {
+                        if tortoise.pos == Position(row, col) {
+                            print!("T")
+                        } else if hare.pos == Position(row, col) {
+                            print!("H")
+                        } else {
+                            print!(".")
+                        }
+                    }
+                }
+            }
+            println!();
+        }
+        println!(
+            "Tortoise: ({}, {}) Hare: ({}, {})",
+            tortoise.pos.0, tortoise.pos.1, hare.pos.0, hare.pos.1
+        );
     }
 }
 
@@ -422,6 +446,14 @@ mod tests {
     #[test]
     fn test_print_path_list() {
         let input = include_str!("input/day6/test_input.txt");
+        let mut board = Board::from(input);
+        let loops = board.part_2();
+        println!("Part 2: {}", loops);
+    }
+
+    #[test]
+    fn part_2_input() {
+        let input = include_str!("input/day6/input.txt");
         let mut board = Board::from(input);
         let loops = board.part_2();
         println!("Part 2: {}", loops);
